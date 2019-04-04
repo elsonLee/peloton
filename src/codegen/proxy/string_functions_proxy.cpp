@@ -22,6 +22,8 @@ namespace codegen {
 // StrWithLen struct
 DEFINE_TYPE(StrWithLen, "peloton::StrWithLen", str, length);
 
+DEFINE_METHOD(peloton::function, StringFunctions, Upper);
+DEFINE_METHOD(peloton::function, StringFunctions, Lower);
 DEFINE_METHOD(peloton::function, StringFunctions, Ascii);
 DEFINE_METHOD(peloton::function, StringFunctions, Like);
 DEFINE_METHOD(peloton::function, StringFunctions, Length);
@@ -29,6 +31,7 @@ DEFINE_METHOD(peloton::function, StringFunctions, BTrim);
 DEFINE_METHOD(peloton::function, StringFunctions, Trim);
 DEFINE_METHOD(peloton::function, StringFunctions, LTrim);
 DEFINE_METHOD(peloton::function, StringFunctions, RTrim);
+DEFINE_METHOD(peloton::function, StringFunctions, Concat);
 DEFINE_METHOD(peloton::function, StringFunctions, Substr);
 DEFINE_METHOD(peloton::function, StringFunctions, Repeat);
 DEFINE_METHOD(peloton::function, StringFunctions, CompareStrings);

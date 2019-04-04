@@ -227,12 +227,34 @@ type::Value OldEngineStringFunctions::Length(
 
 type::Value OldEngineStringFunctions::Upper(
     UNUSED_ATTRIBUTE const std::vector<type::Value> &args) {
-  throw Exception{"Upper not implemented in old engine"};
+
+  PELOTON_ASSERT(args.size() == 1);
+  if (args[0].IsNull()) {
+    return type::ValueFactory::GetNullValueByType(type::TypeId::VARCHAR);
+  }
+
+  executor::ExecutorContext ctx{nullptr};
+  auto ret = StringFunctions::Upper(
+      ctx, args.at(0).GetData(), strlen(args.at(0).GetData()));
+
+  std::string str(ret.str, ret.length);
+  return type::ValueFactory::GetVarcharValue(str);
 }
 
 type::Value OldEngineStringFunctions::Lower(
     UNUSED_ATTRIBUTE const std::vector<type::Value> &args) {
-  throw Exception{"Lower not implemented in old engine"};
+
+  PELOTON_ASSERT(args.size() == 1);
+  if (args[0].IsNull()) {
+    return type::ValueFactory::GetNullValueByType(type::TypeId::VARCHAR);
+  }
+
+  executor::ExecutorContext ctx{nullptr};
+  auto ret = StringFunctions::Lower(
+      ctx, args.at(0).GetData(), strlen(args.at(0).GetData()));
+
+  std::string str(ret.str, ret.length);
+  return type::ValueFactory::GetVarcharValue(str);
 }
 
 }  // namespace function

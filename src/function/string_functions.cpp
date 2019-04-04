@@ -215,6 +215,74 @@ StringFunctions::StrWithLen StringFunctions::BTrim(
   return StringFunctions::StrWithLen{str + head, new_len};
 }
 
+StringFunctions::StrWithLen StringFunctions::Upper(
+    UNUSED_ATTRIBUTE executor::ExecutorContext &ctx,
+                     const char *str, uint32_t str_length) {
+
+  PELOTON_ASSERT(str != nullptr);
+
+  // Allocate new memory
+  auto *pool = ctx.GetPool();
+  auto *new_str = reinterpret_cast<char *>(pool->Allocate(str_length));
+
+  for (uint32_t i = 0; i < str_length; i++) {
+    if (std::islower(str[i])) {
+        new_str[i] = std::toupper(str[i]);
+    } else {
+        new_str[i] = str[i];
+    }
+  }
+
+  return StringFunctions::StrWithLen{new_str, str_length};
+}
+
+StringFunctions::StrWithLen StringFunctions::Lower(
+    UNUSED_ATTRIBUTE executor::ExecutorContext &ctx,
+                     const char *str, uint32_t str_length) {
+
+  PELOTON_ASSERT(str != nullptr);
+
+  // Allocate new memory
+  auto *pool = ctx.GetPool();
+  auto *new_str = reinterpret_cast<char *>(pool->Allocate(str_length));
+
+  for (uint32_t i = 0; i < str_length; i++) {
+    if (std::isupper(str[i])) {
+        new_str[i] = std::tolower(str[i]);
+    } else {
+        new_str[i] = str[i];
+    }
+  }
+
+  return StringFunctions::StrWithLen{new_str, str_length};
+}
+
+StringFunctions::StrWithLen StringFunctions::Concat(
+    UNUSED_ATTRIBUTE executor::ExecutorContext &ctx,
+                     const char **concat_strs, const uint32_t *lens, const uint32_t num) {
+
+  PELOTON_ASSERT(concat_strs != nullptr);
+  PELOTON_ASSERT(lens != nullptr);
+
+  uint32_t str_length = 0;
+  for (uint32_t i = 0; i < num; i++) {
+      str_length += (lens[i]-1);
+  }
+  str_length += 1;
+
+  auto *pool = ctx.GetPool();
+  auto *new_str = reinterpret_cast<char *>(pool->Allocate(str_length));
+
+  char *ptr = new_str;
+  for (uint32_t i = 0; i < num; i++) {
+    uint32_t len = lens[i]-1;
+    PELOTON_MEMCPY(ptr, concat_strs[i], len);
+    ptr += len;
+  }
+
+  return StringFunctions::StrWithLen{new_str, str_length};
+}
+
 uint32_t StringFunctions::Length(
     UNUSED_ATTRIBUTE executor::ExecutorContext &ctx,
     UNUSED_ATTRIBUTE const char *str, uint32_t length) {

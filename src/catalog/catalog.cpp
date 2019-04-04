@@ -1948,6 +1948,22 @@ void Catalog::InitializeFunctions() {
        * string functions
        */
       AddBuiltinFunction(txn,
+                         "upper",
+                         function::BuiltInFuncType{OperatorId::Upper,
+                                                   function::OldEngineStringFunctions::Upper},
+                         "Upper",
+                         type::TypeId::VARCHAR,
+                         {type::TypeId::VARCHAR},
+                         internal_lang);
+      AddBuiltinFunction(txn,
+                         "lower",
+                         function::BuiltInFuncType{OperatorId::Lower,
+                                                   function::OldEngineStringFunctions::Lower},
+                         "Lower",
+                         type::TypeId::VARCHAR,
+                         {type::TypeId::VARCHAR},
+                         internal_lang);
+      AddBuiltinFunction(txn,
                          "ascii",
                          function::BuiltInFuncType{OperatorId::Ascii,
                                                    function::OldEngineStringFunctions::Ascii},

@@ -36,6 +36,146 @@ class StringFunctionsTests : public PelotonTest {
   executor::ExecutorContext test_ctx_;
 };
 
+TEST_F(StringFunctionsTests, UpperTest) {
+  {
+    std::string s1 = "forbes";
+    std::string p1 = "FORBES";
+    auto res = function::StringFunctions::Upper(
+        GetExecutorContext(), s1.c_str(), s1.size());
+    EXPECT_EQ(std::string(res.str, res.length), p1);
+
+    std::vector<type::Value> args = {type::ValueFactory::GetVarcharValue(s1)};
+    auto res2 = function::OldEngineStringFunctions::Upper(args);
+    EXPECT_EQ(res2.ToString(), p1);
+  }
+
+  {
+    std::string s1 = "";
+    std::string p1 = "";
+    auto res = function::StringFunctions::Upper(
+        GetExecutorContext(), s1.c_str(), s1.size());
+    EXPECT_EQ(std::string(res.str, res.length), p1);
+
+    std::vector<type::Value> args = {type::ValueFactory::GetVarcharValue(s1)};
+    auto res2 = function::OldEngineStringFunctions::Upper(args);
+    EXPECT_EQ(res2.ToString(), p1);
+  }
+
+  {
+    std::string s1 = "ForBes";
+    std::string p1 = "FORBES";
+    auto res = function::StringFunctions::Upper(
+        GetExecutorContext(), s1.c_str(), s1.size());
+    EXPECT_EQ(std::string(res.str, res.length), p1);
+
+    std::vector<type::Value> args = {type::ValueFactory::GetVarcharValue(s1)};
+    auto res2 = function::OldEngineStringFunctions::Upper(args);
+    EXPECT_EQ(res2.ToString(), p1);
+  }
+
+  {
+    std::string s1 = "FORBES";
+    std::string p1 = "FORBES";
+    auto res = function::StringFunctions::Upper(
+        GetExecutorContext(), s1.c_str(), s1.size());
+    EXPECT_EQ(std::string(res.str, res.length), p1);
+
+    std::vector<type::Value> args = {type::ValueFactory::GetVarcharValue(s1)};
+    auto res2 = function::OldEngineStringFunctions::Upper(args);
+    EXPECT_EQ(res2.ToString(), p1);
+  }
+
+  {
+    std::string s1 = "alLah /forbes-School";
+    std::string p1 = "ALLAH /FORBES-SCHOOL";
+    auto res = function::StringFunctions::Upper(
+        GetExecutorContext(), s1.c_str(), s1.size());
+    EXPECT_EQ(std::string(res.str, res.length), p1);
+
+    std::vector<type::Value> args = {type::ValueFactory::GetVarcharValue(s1)};
+    auto res2 = function::OldEngineStringFunctions::Upper(args);
+    EXPECT_EQ(res2.ToString(), p1);
+  }
+}
+
+TEST_F(StringFunctionsTests, LowerTest) {
+  {
+    std::string s1 = "FORBES";
+    std::string p1 = "forbes";
+    auto res = function::StringFunctions::Lower(
+        GetExecutorContext(), s1.c_str(), s1.size());
+    EXPECT_EQ(std::string(res.str, res.length), p1);
+
+    std::vector<type::Value> args = {type::ValueFactory::GetVarcharValue(s1)};
+    auto res2 = function::OldEngineStringFunctions::Lower(args);
+    EXPECT_EQ(res2.ToString(), p1);
+  }
+
+  {
+    std::string s1 = "";
+    std::string p1 = "";
+    auto res = function::StringFunctions::Lower(
+        GetExecutorContext(), s1.c_str(), s1.size());
+    EXPECT_EQ(std::string(res.str, res.length), p1);
+
+    std::vector<type::Value> args = {type::ValueFactory::GetVarcharValue(s1)};
+    auto res2 = function::OldEngineStringFunctions::Lower(args);
+    EXPECT_EQ(res2.ToString(), p1);
+  }
+
+  {
+    std::string s1 = "ForBes";
+    std::string p1 = "forbes";
+    auto res = function::StringFunctions::Lower(
+        GetExecutorContext(), s1.c_str(), s1.size());
+    EXPECT_EQ(std::string(res.str, res.length), p1);
+
+    std::vector<type::Value> args = {type::ValueFactory::GetVarcharValue(s1)};
+    auto res2 = function::OldEngineStringFunctions::Lower(args);
+    EXPECT_EQ(res2.ToString(), p1);
+  }
+
+  {
+    std::string s1 = "forbes";
+    std::string p1 = "forbes";
+    auto res = function::StringFunctions::Lower(
+        GetExecutorContext(), s1.c_str(), s1.size());
+    EXPECT_EQ(std::string(res.str, res.length), p1);
+
+    std::vector<type::Value> args = {type::ValueFactory::GetVarcharValue(s1)};
+    auto res2 = function::OldEngineStringFunctions::Lower(args);
+    EXPECT_EQ(res2.ToString(), p1);
+  }
+
+  {
+    std::string s1 = "AlLah /ForBes-School";
+    std::string p1 = "allah /forbes-school";
+    auto res = function::StringFunctions::Lower(
+        GetExecutorContext(), s1.c_str(), s1.size());
+    EXPECT_EQ(std::string(res.str, res.length), p1);
+
+    std::vector<type::Value> args = {type::ValueFactory::GetVarcharValue(s1)};
+    auto res2 = function::OldEngineStringFunctions::Lower(args);
+    EXPECT_EQ(res2.ToString(), p1);
+  }
+}
+
+TEST_F(StringFunctionsTests, ConcatTest) {
+  {
+    const char* s1[] = {"a", "bb", "ccc", "dddd"};
+    std::string p1 = "abbcccdddd";
+
+    const uint32_t num = sizeof(s1)/sizeof(s1[0]);
+    uint32_t l1[num];
+    for (uint32_t i = 0; i < num; i++) {
+      l1[i] = strlen(s1[i]);
+    }
+    auto res = function::StringFunctions::Concat(
+        GetExecutorContext(), s1, l1, num);
+    EXPECT_EQ(std::string(res.str, res.length), p1);
+  }
+}
+
 TEST_F(StringFunctionsTests, LikeTest) {
   //-------------- match ---------------- //
   std::string s1 = "forbes \\avenue";  // "forbes \avenue"

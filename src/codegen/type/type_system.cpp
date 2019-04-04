@@ -437,6 +437,7 @@ const TypeSystem::UnaryOperator *TypeSystem::GetUnaryOperator(
   // Error
   std::string msg = StringUtil::Format(
       "No compatible '%s' unary operator for input type: '%s'",
+      OperatorIdToString(op_id).c_str(),
       TypeIdToString(input_type.type_id).c_str());
 
   throw Exception{msg};

@@ -120,6 +120,15 @@ class StringFunctions {
    */
   static StrWithLen InputString(const codegen::type::Type &type,
                                 const char *data, uint32_t len);
+
+  static StrWithLen Upper(executor::ExecutorContext &ctx, const char *str,
+                          uint32_t str_length);
+
+  static StrWithLen Lower(executor::ExecutorContext &ctx, const char *str,
+                          uint32_t str_length);
+
+  static StrWithLen Concat(executor::ExecutorContext &ctx,
+                           const char **concat_strs, const uint32_t *lens, const uint32_t num);
 };
 
 }  // namespace function

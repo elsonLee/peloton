@@ -20,6 +20,8 @@ namespace codegen {
 
 PROXY(StringFunctions) {
   // Proxy everything in function::StringFunctions
+  DECLARE_METHOD(Upper);
+  DECLARE_METHOD(Lower);
   DECLARE_METHOD(Ascii);
   DECLARE_METHOD(Like);
   DECLARE_METHOD(Length);
@@ -27,6 +29,7 @@ PROXY(StringFunctions) {
   DECLARE_METHOD(Trim);
   DECLARE_METHOD(LTrim);
   DECLARE_METHOD(RTrim);
+  DECLARE_METHOD(Concat);
   DECLARE_METHOD(Substr);
   DECLARE_METHOD(Repeat);
   DECLARE_METHOD(CompareStrings);

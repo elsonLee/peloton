@@ -3169,6 +3169,10 @@ std::string OperatorIdToString(OperatorId op_id) {
       return "Like";
     case OperatorId::DateTrunc:
       return "DateTrunc";
+    case OperatorId::Upper:
+      return "Upper";
+    case OperatorId::Lower:
+      return "Lower";
     default: {
       throw Exception{StringUtil::Format("Invalid operator ID: %u", op_id)};
     }
